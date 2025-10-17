@@ -8,8 +8,8 @@ if sys.version_info >= (3, 12):
     except RuntimeError:
         asyncio.set_event_loop(asyncio.new_event_loop())
 
-from pyrogram import Client, filters
-from pyromod import listen
+#from pyrogram import Client, filters
+#from pyromod import listen
 
 # बाकी आपका मूल code...
 # (यहाँ से आपकी बाकी imports और logic आएगी)
