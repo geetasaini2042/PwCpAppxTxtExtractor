@@ -1,3 +1,18 @@
+import asyncio
+import sys
+
+# ✅ Fix for "There is no current event loop" on Python 3.12+
+if sys.version_info >= (3, 12):
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
+
+from pyrogram import Client, filters
+from pyromod import listen
+
+# बाकी आपका मूल code...
+# (यहाँ से आपकी बाकी imports और logic आएगी)
 import requests
 import asyncio
 import aiohttp
