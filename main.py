@@ -729,31 +729,32 @@ async def get_cpwp_course_content(session: aiohttp.ClientSession, headers: Dict[
                         url_val = url_val.rsplit('/', 1)[0] + "/master.m3u8"
                     elif "media-cdn.classplusapp.com" in url_val and url_val.endswith('.jpg'):
                         identifier = url_val.split('/')[-3]
-                        url_val = f'https://media-cdn.classplusapp.com/alisg-cdn-a.classplusapp.com/{identifier}/master.m3u8'
+                        url_val = f"https://media-cdn.classplusapp.com/alisg-cdn-a.classplusapp.com/{identifier}/master.m3u8"
                     elif "tencdn.classplusapp.com" in url_val and url_val.endswith('.jpg'):
                         identifier = url_val.split('/')[-2]
-                        url_val = f'https://media-cdn.classplusapp.com/tencent/{identifier}/master.m3u8'
+                        url_val = f"https://media-cdn.classplusapp.com/tencent/{identifier}/master.m3u8"
                     elif "4b06bf8d61c41f8310af9b2624459378203740932b456b07fcf817b737fbae27" in url_val and url_val.endswith('.jpeg'):
-                        url_val = f'https://media-cdn.classplusapp.com/alisg-cdn-a.classplusapp.com/b08bad9ff8d969639b2e43d5769342cc62b510c4345d2f7f153bec53be84fe35/{url_val.split('/')[-1].split('.')[0]}/master.m3u8'
+                        identifier = url_val.split('/')[-1].split('.')[0]
+                        url_val = f"https://media-cdn.classplusapp.com/alisg-cdn-a.classplusapp.com/b08bad9ff8d969639b2e43d5769342cc62b510c4345d2f7f153bec53be84fe35/{identifier}/master.m3u8"
                     elif "cpvideocdn.testbook.com" in url_val and url_val.endswith('.png'):
                         match = re.search(r'/streams/([a-f0-9]{24})/', url_val)
                         video_id = match.group(1) if match else url_val.split('/')[-2]
-                        url_val = f'https://cpvod.testbook.com/{video_id}/playlist.m3u8'
+                        url_val = f"https://cpvod.testbook.com/{video_id}/playlist.m3u8"
                     elif "media-cdn.classplusapp.com/drm/" in url_val and url_val.endswith('.png'):
                         video_id = url_val.split('/')[-3]
-                        url_val = f'https://media-cdn.classplusapp.com/drm/{video_id}/playlist.m3u8'
+                        url_val = f"https://media-cdn.classplusapp.com/drm/{video_id}/playlist.m3u8"
                     elif "https://media-cdn.classplusapp.com" in url_val and ("cc/" in url_val or "lc/" in url_val or "uc/" in url_val or "dy/" in url_val) and url_val.endswith('.png'):
                         url_val = url_val.replace('thumbnail.png', 'master.m3u8')
                     elif "https://tb-video.classplusapp.com" in url_val and url_val.endswith('.jpg'):
                         video_id = url_val.split('/')[-1].split('.')[0]
-                        url_val = f'https://tb-video.classplusapp.com/{video_id}/master.m3u8'
+                        url_val = f"https://tb-video.classplusapp.com/{video_id}/master.m3u8"
 
                     if url_val.endswith(("master.m3u8", "playlist.m3u8")) and url_val not in fetched_urls:
                         fetched_urls.add(url_val)
                         headers2 = { 'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9'}
                         task = asyncio.create_task(process_cpwp_url(url_val, name, session, headers2))
                         content_tasks.append((content['id'], task))
-                        
+
                     else:
                         name: str = content['name']
                         url_val: str | None = content.get('url')
